@@ -11,6 +11,8 @@ import shutil
 
 spiceypy.spiceypy.furnsh('kernelbuilding/naif0012.tls')
 
+scriptpath = os.path.dirname(os.path.realpath(__file__))
+
 if len(sys.argv) < 5:
     print("python rec2pice.py file.osrectxt shot# version# name")
     exit()
@@ -19,6 +21,7 @@ if len(sys.argv) < 5:
 filepath = sys.argv[1]
 filename = os.path.basename(sys.argv[1])
 folderpath = os.path.dirname(sys.argv[1])
+
 
 # windows
 # if (filename[0:2] == ".\\"):
@@ -45,8 +48,8 @@ if os.path.exists(dirpath) and os.path.isdir(dirpath):
     shutil.rmtree(dirpath)
 os.makedirs(dirpath)
 
-os.system(f"cp kernelbuilding/commnt.txt {dirpath}")
-os.system(f"cp kernelbuilding/naif0012.tls {dirpath}")
+os.system(f"cp {scriptpath}/kernelbuilding/commnt.txt {dirpath}")
+os.system(f"cp {scriptpath}/kernelbuilding/naif0012.tls {dirpath}")
 #string in file that represents switching targets
 SWITCHSTR = 'openspace.setPropertyValueSingle("NavigationHandler.OrbitalNavigator.Anchor'
 
