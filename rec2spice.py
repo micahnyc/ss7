@@ -9,9 +9,9 @@ from astropy import units as u
 import spiceypy
 import shutil 
 
-spiceypy.spiceypy.furnsh('kernelbuilding/naif0012.tls')
 
 scriptpath = os.path.dirname(os.path.realpath(__file__))
+spiceypy.spiceypy.furnsh(scriptpath + '/kernelbuilding/naif0012.tls')
 
 if len(sys.argv) < 5:
     print("python rec2pice.py file.osrectxt shot# version# name")
