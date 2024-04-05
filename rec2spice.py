@@ -93,7 +93,7 @@ KERNELS = {
         "NavSE_plu047_od122.bsp",
         "ssd_jpl_nasa_gov_plu043.bsp"
     ],
-    'MaunaKeaPosition': ['mauna_kea.bsp'],
+    'MAUNAKEA': ['MAUNAKEA.bsp', 'MAUNAKEA.tf'],
     'MilkyWayVolume': ['milkyway.spk'],
     'OrionShell': ['orion.bsp'],
     'Gaia': [
