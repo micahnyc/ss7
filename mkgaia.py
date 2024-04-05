@@ -75,7 +75,7 @@ local model = {
     Renderable = {
         Type = "RenderableModel",
         GeometryFile = asset.localResource("model/gaia.fbx"),
-        ModelScale = 0.01
+        ModelScale = 0.05
     },
     GUI = {
         Path = "/SS7",
@@ -85,7 +85,7 @@ local model = {
 
 local trail = {
     Identifier = "GaiaTrail",
-    Parent = transforms.L2CoRevFrame.Identifier,
+    Parent = l2transforms.L2CoRevFrame.Identifier,
     Renderable = {
         Type = "RenderableTrailTrajectory",
         StartTime = "2000-01-01",
