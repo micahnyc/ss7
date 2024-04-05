@@ -1,0 +1,21 @@
+\begintext
+Mauna Kea Observatory Location
+
+Latitude: 19.819734
+Longitude: -155.473293
+Altitude: 4205m
+
+./pinpoint -def MAUNAKEA.def -pck $RCP_ROOT/resource/data/NAIF/SPICE/generic_kernels_2024/pck/pck00011.tpc -spk ../MAUNAKEA.spk -fk ../MAUNAKEA.fk
+
+
+\begindata
+SITES = ( 'MAUNAKEA_SITE' )
+MAUNAKEA_SITE_CENTER=399
+MAUNAKEA_SITE_FRAME='IAU_EARTH'
+MAUNAKEA_SITE_IDCODE=  399701
+MAUNAKEA_SITE_LATLON=(19.819734 -155.473293 4.205)
+MAUNAKEA_SITE_BOUNDS=(@1900-JAN-01, @2100-JAN-01)
+MAUNAKEA_SITE_UP='Z'
+MAUNAKEA_SITE_NORTH='X'
+
+\begintext

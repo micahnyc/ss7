@@ -64,7 +64,7 @@ NAIF_CODES = {
     'Mars': 499,
     'Gaia': -123,
     'Sun': 10,
-    'MaunaKeaPoition': 399701,
+    'MAUNAKEA': 399701,
     'MilkyWayVolume': 1401000,
 }
 
@@ -73,7 +73,7 @@ IFRAMES = {
     'Earth': 'IAU_EARTH',
     'Mars': 'IAU_MARS',
     'Gaia': 'GAIA_SPACECRAFT',
-    'MaunaKeaPoition': 'MAUNA_KEA',
+    'MAUNAKEA': 'MAUNAKEA_SITE',
     'Sun': 'IAU_SUN',
     'MilkyWayVolume': '1401000'
 }
