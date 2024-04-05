@@ -39,7 +39,9 @@ for file in files:
     asset_str += f"\tasset.localResource('gaia_kernels/{file}'),\n"
 asset_str += "}\n"
 
-asset_str += """local position = {
+asset_str += """local l2transforms = asset.require("scene/solarsystem/planets/earth/lagrange_points/l2")
+
+local position = {
     Identifier = 'Gaia',
     Parent = 'SolarSystemBarycenter',
     Transform = {
@@ -81,13 +83,37 @@ local model = {
     }
 }
 
+local trail = {
+    Identifier = "GaiaTrail",
+    Parent = transforms.L2CoRevFrame.Identifier,
+    Renderable = {
+        Type = "RenderableTrailTrajectory",
+        StartTime = "2000-01-01",
+        EndTime = "2030-01-01",
+        SampleInterval = 1000,
+        Translation = {
+            Type = "SpiceTranslation",
+            Target = "-123",
+            Observer = "392",
+            Frame = "L2_COREV"
+        },
+        Color = {1,0,0}
+    },
+    GUI = {
+        Path = "/SS7",
+        Name = "Gaia Trail"
+    }
+}
+
 asset.onInitialize(function()
     openspace.spice.loadKernel(Kernels)
     openspace.addSceneGraphNode(position);
     openspace.addSceneGraphNode(model);
+    openspace.addSceneGraphNode(trail);
 end)
 
 asset.onDeinitialize(function()
+    openspace.removeSceneGraphNode(trail);
     openspace.removeSceneGraphNode(model);
     openspace.removeSceneGraphNode(position);
     openspace.spice.unloadKernel(Kernels)
