@@ -70,11 +70,10 @@ local model = {
             DestinationFrame = "GALACTIC"            
         }
     },
-    BoundingSphere = 30.0,
-    InteractionSphere = 2.0,
     Renderable = {
         Type = "RenderableModel",
-        GeometryFile = asset.localResource("model/gaia.fbx")
+        GeometryFile = asset.localResource("model/gaia.fbx"),
+        ModelScale = 0.01
     },
     GUI = {
         Path = "/SS7",
