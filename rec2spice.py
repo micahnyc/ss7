@@ -11,6 +11,7 @@ import shutil
 
 
 scriptpath = os.path.dirname(os.path.realpath(__file__))
+
 spiceypy.spiceypy.furnsh(scriptpath + '/kernelbuilding/naif0012.tls')
 
 if len(sys.argv) < 5:
@@ -21,7 +22,6 @@ if len(sys.argv) < 5:
 filepath = sys.argv[1]
 filename = os.path.basename(sys.argv[1])
 folderpath = os.path.dirname(sys.argv[1])
-
 
 # windows
 # if (filename[0:2] == ".\\"):
@@ -63,6 +63,7 @@ NAIF_CODES = {
     'Earth': 399,
     'Mars': 499,
     'Gaia': -123,
+    'GaiaModel': -123,
     'Sun': 10,
     'MAUNAKEA': 399701,
     'MilkyWayVolume': 1401000,
@@ -73,10 +74,31 @@ IFRAMES = {
     'Earth': 'IAU_EARTH',
     'Mars': 'IAU_MARS',
     'Gaia': 'GAIA_SPACECRAFT',
+    'GaiaModel': 'GAIA_SPACECRAFT',
     'MAUNAKEA': 'MAUNAKEA_SITE',
     'Sun': 'IAU_SUN',
     'MilkyWayVolume': '1401000'
 }
+
+gaiaKernels = [
+    'gaia_fict_20191030.tsc',
+    'gaia_pre_20240226_20260913_v01.bsp',
+    'gaia_rec_20131219_20240101_v01.bsp',
+    'gaia_rec_20240101_20240226_v01.bsp',
+    'gaia_sc_ssm_20131219_20150101_f20191030_v01.bc',
+    'gaia_sc_ssm_20150101_20160101_f20191030_v01.bc',
+    'gaia_sc_ssm_20160101_20170101_f20191030_v01.bc',
+    'gaia_sc_ssm_20170101_20180101_f20191030_v01.bc',
+    'gaia_sc_ssm_20180101_20190101_f20191030_v01.bc',
+    'gaia_sc_ssm_20190101_20200101_f20191030_v01.bc',
+    'gaia_sc_ssm_20200101_20210101_f20191030_v01.bc',
+    'gaia_sc_ssm_20210101_20220101_f20191030_v01.bc',
+    'gaia_sc_ssm_20220101_20230101_f20191030_v01.bc',
+    'gaia_sc_ssm_20230101_20240101_f20191030_v01.bc',
+    'gaia_sc_ssm_20240101_20240204_f20191030_v01.bc',
+    'gaia_sc_ssp_20240101_20240204_f20191030_v01.bc',
+    'gaia_v01.tf'
+]
 
 KERNELS = {
     'OpenSpace': [
@@ -96,25 +118,8 @@ KERNELS = {
     'MAUNAKEA': ['MAUNAKEA.bsp', 'MAUNAKEA.tf'],
     'MilkyWayVolume': ['milkyway.spk'],
     'OrionShell': ['orion.bsp'],
-    'Gaia': [
-        'gaia_fict_20191030.tsc',
-        'gaia_pre_20240226_20260913_v01.bsp',
-        'gaia_rec_20131219_20240101_v01.bsp',
-        'gaia_rec_20240101_20240226_v01.bsp',
-        'gaia_sc_ssm_20131219_20150101_f20191030_v01.bc',
-        'gaia_sc_ssm_20150101_20160101_f20191030_v01.bc',
-        'gaia_sc_ssm_20160101_20170101_f20191030_v01.bc',
-        'gaia_sc_ssm_20170101_20180101_f20191030_v01.bc',
-        'gaia_sc_ssm_20180101_20190101_f20191030_v01.bc',
-        'gaia_sc_ssm_20190101_20200101_f20191030_v01.bc',
-        'gaia_sc_ssm_20200101_20210101_f20191030_v01.bc',
-        'gaia_sc_ssm_20210101_20220101_f20191030_v01.bc',
-        'gaia_sc_ssm_20220101_20230101_f20191030_v01.bc',
-        'gaia_sc_ssm_20230101_20240101_f20191030_v01.bc',
-        'gaia_sc_ssm_20240101_20240204_f20191030_v01.bc',
-        'gaia_sc_ssp_20240101_20240204_f20191030_v01.bc',
-        'gaia_v01.tf'
-    ]
+    'Gaia': gaiaKernels,
+    'GaiaModel': gaiaKernels,
 }
 
 #loop thru lines of file to create 'frames' for each segment of the recording based on target
@@ -266,6 +271,7 @@ for i, frames in enumerate(masterFrames):
                 masterFrames[i][-1]['vz'])
             f.write(connectionLine)
         f.close()
+
 
     #generate setup.mkspk
     center_id = NAIF_CODES[focus]
