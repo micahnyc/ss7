@@ -1,0 +1,80 @@
+{
+
+    "IDS":{
+        "NAIF_CODES":{
+            "Moon": 301,
+            "Earth": 399,
+            "Mars": 499,
+            "Gaia": -123,
+            "GaiaModel": -123,
+            "Sun": 10,
+            "MAUNAKEA": 399701,
+            "MilkyWayVolume": 1401000
+            },
+
+        "IFRAMES":      
+            {       "Moon": "IAU_MOON",
+            "Earth": "IAU_EARTH",
+            "Mars": "IAU_MARS",
+            "Gaia": "GAIA_SPACECRAFT",
+            "GaiaModel": "GAIA_SPACECRAFT",
+            "MAUNAKEA": "MAUNAKEA_SITE",
+            "Sun": "IAU_SUN",
+            "MilkyWayVolume": "1401000"
+            }
+        },
+    "KERNELS":{
+        "OpenSpace":[        
+            "naif0012.tls",
+            "pck00011.tpc",
+            "de430.bsp",
+            "mar097.bsp",
+            "jup365.bsp",
+            "sat441.bsp",
+            "ura111.bsp",
+            "nep097.bsp",
+            "nep101xl-802.bsp",
+            "NavPE_de433_od122.bsp",
+            "NavSE_plu047_od122.bsp",
+            "ssd_jpl_nasa_gov_plu043.bsp"],
+        "Gaia":[
+            "gaia_fict_20191030.tsc",
+            "gaia_pre_20240226_20260913_v01.bsp",
+            "gaia_rec_20131219_20240101_v01.bsp",
+            "gaia_rec_20240101_20240226_v01.bsp",
+            "gaia_sc_ssm_20131219_20150101_f20191030_v01.bc",
+            "gaia_sc_ssm_20150101_20160101_f20191030_v01.bc",
+            "gaia_sc_ssm_20160101_20170101_f20191030_v01.bc",
+            "gaia_sc_ssm_20170101_20180101_f20191030_v01.bc",
+            "gaia_sc_ssm_20180101_20190101_f20191030_v01.bc",
+            "gaia_sc_ssm_20190101_20200101_f20191030_v01.bc",
+            "gaia_sc_ssm_20200101_20210101_f20191030_v01.bc",
+            "gaia_sc_ssm_20210101_20220101_f20191030_v01.bc",
+            "gaia_sc_ssm_20220101_20230101_f20191030_v01.bc",
+            "gaia_sc_ssm_20230101_20240101_f20191030_v01.bc",
+            "gaia_sc_ssm_20240101_20240204_f20191030_v01.bc",
+            "gaia_sc_ssp_20240101_20240204_f20191030_v01.bc",
+            "gaia_v01.tf"],
+        "GaiaModel":[
+            "gaia_fict_20191030.tsc",
+            "gaia_pre_20240226_20260913_v01.bsp",
+            "gaia_rec_20131219_20240101_v01.bsp",
+            "gaia_rec_20240101_20240226_v01.bsp",
+            "gaia_sc_ssm_20131219_20150101_f20191030_v01.bc",
+            "gaia_sc_ssm_20150101_20160101_f20191030_v01.bc",
+            "gaia_sc_ssm_20160101_20170101_f20191030_v01.bc",
+            "gaia_sc_ssm_20170101_20180101_f20191030_v01.bc",
+            "gaia_sc_ssm_20180101_20190101_f20191030_v01.bc",
+            "gaia_sc_ssm_20190101_20200101_f20191030_v01.bc",
+            "gaia_sc_ssm_20200101_20210101_f20191030_v01.bc",
+            "gaia_sc_ssm_20210101_20220101_f20191030_v01.bc",
+            "gaia_sc_ssm_20220101_20230101_f20191030_v01.bc",
+            "gaia_sc_ssm_20230101_20240101_f20191030_v01.bc",
+            "gaia_sc_ssm_20240101_20240204_f20191030_v01.bc",
+            "gaia_sc_ssp_20240101_20240204_f20191030_v01.bc",
+            "gaia_v01.tf"],
+        "MAUNAKEA": ["MAUNAKEA.bsp", "MAUNAKEA.tf"],
+        "MilkyWayVolume": ["milkyway.spk"],
+        "OrionShell": ["orion.bsp"]
+    }
+}

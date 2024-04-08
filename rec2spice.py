@@ -56,71 +56,13 @@ SWITCHSTR = 'openspace.setPropertyValueSingle("NavigationHandler.OrbitalNavigato
 #string in file that represents switching targets
 DELTA_TIME = 'DeltaTime'
 
+# getting kernel info from kernel_data.json file (in same folder as this)
+with open(f"{scriptpath}/kernel_data.json", "r") as f:
+    kernel_data = json.load(f)
 
-#mapping of naif codes to openspace identifiers
-NAIF_CODES = {
-    'Moon': 301,
-    'Earth': 399,
-    'Mars': 499,
-    'Gaia': -123,
-    'GaiaModel': -123,
-    'Sun': 10,
-    'MAUNAKEA': 399701,
-    'MilkyWayVolume': 1401000,
-}
-
-IFRAMES = {
-    'Moon': 'IAU_MOON',
-    'Earth': 'IAU_EARTH',
-    'Mars': 'IAU_MARS',
-    'Gaia': 'GAIA_SPACECRAFT',
-    'GaiaModel': 'GAIA_SPACECRAFT',
-    'MAUNAKEA': 'MAUNAKEA_SITE',
-    'Sun': 'IAU_SUN',
-    'MilkyWayVolume': '1401000'
-}
-
-gaiaKernels = [
-    'gaia_fict_20191030.tsc',
-    'gaia_pre_20240226_20260913_v01.bsp',
-    'gaia_rec_20131219_20240101_v01.bsp',
-    'gaia_rec_20240101_20240226_v01.bsp',
-    'gaia_sc_ssm_20131219_20150101_f20191030_v01.bc',
-    'gaia_sc_ssm_20150101_20160101_f20191030_v01.bc',
-    'gaia_sc_ssm_20160101_20170101_f20191030_v01.bc',
-    'gaia_sc_ssm_20170101_20180101_f20191030_v01.bc',
-    'gaia_sc_ssm_20180101_20190101_f20191030_v01.bc',
-    'gaia_sc_ssm_20190101_20200101_f20191030_v01.bc',
-    'gaia_sc_ssm_20200101_20210101_f20191030_v01.bc',
-    'gaia_sc_ssm_20210101_20220101_f20191030_v01.bc',
-    'gaia_sc_ssm_20220101_20230101_f20191030_v01.bc',
-    'gaia_sc_ssm_20230101_20240101_f20191030_v01.bc',
-    'gaia_sc_ssm_20240101_20240204_f20191030_v01.bc',
-    'gaia_sc_ssp_20240101_20240204_f20191030_v01.bc',
-    'gaia_v01.tf'
-]
-
-KERNELS = {
-    'OpenSpace': [
-        "naif0012.tls",
-        "pck00011.tpc",
-        "de430.bsp",
-        "mar097.bsp",
-        "jup365.bsp",
-        "sat441.bsp",
-        "ura111.bsp",
-        "nep097.bsp",
-        "nep101xl-802.bsp",
-        "NavPE_de433_od122.bsp",
-        "NavSE_plu047_od122.bsp",
-        "ssd_jpl_nasa_gov_plu043.bsp"
-    ],
-    'MAUNAKEA': ['MAUNAKEA.bsp', 'MAUNAKEA.tf'],
-    'MilkyWayVolume': ['milkyway.spk'],
-    'OrionShell': ['orion.bsp'],
-    'Gaia': gaiaKernels,
-    'GaiaModel': gaiaKernels,
-}
+NAIF_CODES = kernel_data["IDS"]["NAIF_CODES"]
+IFRAMES = kernel_data["IDS"]["IFRAMES"]
+KERNELS = kernel_data["KERNELS"]
 
 #loop thru lines of file to create 'frames' for each segment of the recording based on target
 count = 0
@@ -196,24 +138,21 @@ with open(dirpath + 'ori' + '.dat', 'w') as f:
 with open(f"{dirpath}ss7_{SPICE_ID[1:]}.tf", 'w') as f:
     fkfile = """
     \\begindata
-        FRAME_%s     = %s000
-        FRAME_%s000_NAME        = '%s'
-        FRAME_%s000_CLASS       = 3
-        FRAME_%s000_CLASS_ID    = %s000
-        FRAME_%s000_CENTER      = %s
-        CK_%s000_SCLK           = %s
-        CK_%s000_SPK            = %s
+        FRAME_{fn}     = {si}000
+        FRAME_{si}000_NAME        = '{fn}'
+        FRAME_{si}000_CLASS       = 3
+        FRAME_{si}000_CLASS_ID    = {si}000
+        FRAME_{si}000_CENTER      = {si}
+        CK_{si}000_SCLK           = {si}
+        CK_{si}000_SPK            = {si}
     \\begintext\n\n
-    """ % (FRAME_NAME, SPICE_ID, SPICE_ID, FRAME_NAME,
-            SPICE_ID, SPICE_ID, SPICE_ID,
-            SPICE_ID, SPICE_ID, SPICE_ID,
-            SPICE_ID, SPICE_ID, SPICE_ID)
+    """.format(fn=FRAME_NAME, si=SPICE_ID)
 
     fkfile += """\\begindata
-      NAIF_BODY_NAME += ( '%s' )
-      NAIF_BODY_CODE += ( %s )
+      NAIF_BODY_NAME += ( '{nn}' )
+      NAIF_BODY_CODE += ( {si} )
     \\begintext
-    """ % (newname, SPICE_ID)
+    """.format(nn=newname, si=SPICE_ID)
 
     f.write(fkfile)
     f.close()
@@ -279,7 +218,7 @@ for i, frames in enumerate(masterFrames):
         print("Existing due to error looking up naif id for " + focus)
         exit(-1)
     with open(dirpath + focus+".mkspk", 'w') as f:
-        mkspk = """\\begindata
+        mkspk = f"""\\begindata
             INPUT_DATA_TYPE   = 'STATES'
             DATA_ORDER        = 'epoch x y z vx vy vz '
             DATA_DELIMITER    = ','
@@ -287,17 +226,17 @@ for i, frames in enumerate(masterFrames):
             PRODUCER_ID       = 'OpenSpace (rec2spice)'
             OUTPUT_SPK_TYPE   = 13
             INPUT_DATA_UNITS  = ('DISTANCES=METERS')
-            CENTER_ID         = %s
-            OBJECT_ID         = %s
-            REF_FRAME_NAME    = '%s'
+            CENTER_ID         = {str(center_id)}
+            OBJECT_ID         = {SPICE_ID}
+            REF_FRAME_NAME    = '{GALACTIC_CK_FRAME}'
             LEAPSECONDS_FILE  = 'naif0012.tls'
-            INPUT_DATA_FILE   = '%s'
-            OUTPUT_SPK_FILE   = '%s.bsp'
+            INPUT_DATA_FILE   = '{focus + '_pos.dat'}'
+            OUTPUT_SPK_FILE   = '{SS7}.bsp'
             COMMENT_FILE      = 'commnt.txt'
             POLYNOM_DEGREE    = 11
             TIME_WRAPPER      = '# ETSECONDS'
             APPEND_TO_OUTPUT  = 'YES'
-        \\begintext\n""" % (str(center_id), SPICE_ID, GALACTIC_CK_FRAME , focus + '_pos.dat', SS7)
+        \\begintext\n"""
         textwrap.dedent(mkspk)
         f.write(mkspk)
         f.close()
@@ -308,14 +247,14 @@ for i, frames in enumerate(masterFrames):
 #create meta kernel --TODO fix
 with open (f"{dirpath}{SS7}.tm", 'w') as f:
 
-    metakernel = """
+    metakernel = f"""
     \\begindata
-    KERNELS_TO_LOAD = ( '%s',
-                        '%s',
-                        '%s',
-                        '%s')  
+    KERNELS_TO_LOAD = ( '{fkfile}',
+                        '{sclkfile}',
+                        '{bspfile}',
+                        '{ckfile}')  
     \\begintext
-    """ % (fkfile, sclkfile, bspfile, ckfile)
+    """
     f.write(metakernel)
     f.close()
 
@@ -377,7 +316,8 @@ with open(f"{dirpath}ss7_{SPICE_ID_POS}.asset", 'w') as f:
     }
 
     local trails = {}
-    """ % (newname,SPICE_ID_POS,SPICE_ID_POS, SPICE_ID_POS, SPICE_ID_POS, SPICE_ID, FRAME_NAME, SPICE_ID_POS)
+    """ % (newname, SPICE_ID_POS, SPICE_ID_POS, SPICE_ID_POS, SPICE_ID_POS, SPICE_ID, FRAME_NAME, SPICE_ID)
+
     for frames in masterFrames:
         et_start = frames[0]['et']
         et_end = frames[-1]['et']
