@@ -9,7 +9,15 @@ from astropy import units as u
 import spiceypy
 import shutil 
 
-def rec2spice(filepath, shot, version, newname):
+def rec2spice(filepath: str, shot: int, version: int, newname: str):
+    """
+    convert open space camera recording data to spice kernel
+    ARGS:
+        filepath(str): full path to the .osrectxt file
+        shot(int): shot number, keep to two digits for now (to construct flight path id)
+        version(int): version number, keep to two digits for now (to construct flight path id)
+        newname(str): naif body name to assign to the flight path
+    """
     scriptpath = os.path.dirname(os.path.realpath(__file__))
 
     spiceypy.spiceypy.furnsh(scriptpath + '/kernelbuilding/naif0012.tls')
