@@ -413,7 +413,7 @@ def rec2spice(filepath: str, shot: int, version: int, newname: str):
 if __name__ == "__main__":
     # argv = [thisFile, pathToRecFile, shot, version, name]
     if len(sys.argv) < 5:
-        print("python rec2pice.py file.osrectxt shot# version# name")
+        print("python osrec_to_spice.py file.osrectxt shot# version# name")
         exit()
     rec2spice(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
 

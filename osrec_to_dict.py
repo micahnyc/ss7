@@ -61,6 +61,8 @@ def plot_rectime_et(rec_path):
         ets.append(data_dict[k]["et"])
 
     plt.plot(times, ets)
+    plt.xlabel("seconds")
+    plt.ylabel("ephemeris time")
     plt.show()
 
 
